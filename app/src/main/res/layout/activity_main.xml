@@ -16,45 +16,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp">
+            android:layout_height="100dp"
+            android:gravity="center|center_horizontal">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/activity_main_tv_connected_srs_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="@string/activity_main_tv_connected_srs_label"
+                android:textSize="24sp" />
 
-                <TextView
-                    android:id="@+id/activity_main_tv_connected_event_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/activity_main_tv_connected_event_label" />
-
-                <TextView
-                    android:id="@+id/activity_main_tv_connected_event_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-
-        </TableLayout>
+            <TextView
+                android:id="@+id/activity_main_tv_connected_srs_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_main_tv_connected_srs_name_default"
+                android:textSize="24sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
+            android:layout_height="532dp"
+            android:gravity="center|center_horizontal"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/activity_main_btn_connect_srs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:backgroundTint="#4CAF50"
-                android:text="@string/activity_main_btn_connect_srs" />
+                android:text="@string/activity_main_btn_connect_srs"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/activity_main_btn_disconnect_srs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="#F44336"
                 android:text="@string/activity_main_btn_disconnect_srs"
@@ -64,6 +68,8 @@
                 android:id="@+id/activity_main_btn_scan_tickets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:backgroundTint="#2196F3"
                 android:text="@string/activity_main_btn_scan_tickets"
                 android:visibility="gone" />

@@ -6,7 +6,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import cz.skaut.srs.ticketsreader.scanner.ScannerActivity
-import android.content.DialogInterface
 
 import android.app.AlertDialog
 
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         btnConnectSrs = findViewById(R.id.activity_main_btn_connect_srs)
         btnDisconnectSrs = findViewById(R.id.activity_main_btn_disconnect_srs)
         btnScanTickets = findViewById(R.id.activity_main_btn_scan_tickets)
-        tvConnectedEventName = findViewById(R.id.activity_main_tv_connected_event_name)
+        tvConnectedEventName = findViewById(R.id.activity_main_tv_connected_srs_name)
 
         Preferences.init(this)
 
@@ -69,6 +68,6 @@ class MainActivity : AppCompatActivity() {
         btnDisconnectSrs.visibility = if (Preferences.srsConnected) Button.VISIBLE else Button.GONE
         btnScanTickets.visibility = if (Preferences.srsConnected) Button.VISIBLE else Button.GONE
 
-        tvConnectedEventName.text = Preferences.srsName
+        tvConnectedEventName.text = if (Preferences.srsConnected) Preferences.srsName else R.string.activity_main_tv_connected_srs_name_default.toString()
     }
 }
