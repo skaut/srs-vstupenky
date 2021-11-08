@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SRS čtečka</string>
+    <string name="activity_main_tv_connected_event_label">Akce</string>
+    <string name="activity_main_btn_connect_srs">Propojit se SRS</string>
+    <string name="activity_main_btn_disconnect_srs">Odpojit od SRS</string>
+    <string name="activity_main_btn_scan_tickets">Kontrola vstupenek</string>
+</resources>
