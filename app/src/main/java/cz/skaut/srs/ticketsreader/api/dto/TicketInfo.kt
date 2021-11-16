@@ -1,7 +1,10 @@
 package cz.skaut.srs.ticketsreader.api.dto
 
-class TicketInfo {
-    lateinit var displayName: String
-    lateinit var roles: String
-    lateinit var subevents: String
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class TicketInfo (
+    val displayName: String,
+    val roles: String,
+    val subevents: String
+)

@@ -4,7 +4,7 @@ import android.content.Context
 import cz.skaut.srs.ticketsreader.Preferences
 
 abstract class QrProcessor(
-    private val context: Context
+    protected val context: Context
 ) {
     abstract fun process(value: String)
 }

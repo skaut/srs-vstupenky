@@ -35,7 +35,7 @@ class QrAnalyzer(
                 .addOnSuccessListener { barcodes ->
                     if (barcodes.isNotEmpty()) {
                         for (barcode in barcodes) {
-                            qrProcessor.process(barcode.rawValue)
+                            qrProcessor.process(barcode.rawValue!!)
                             barcode.boundingBox?.let { rect -> qrBoxView.setRect(rect) }
                         }
                     } else {

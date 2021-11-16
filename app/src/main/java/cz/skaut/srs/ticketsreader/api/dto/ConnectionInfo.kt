@@ -1,5 +1,8 @@
 package cz.skaut.srs.ticketsreader.api.dto
 
-class ConnectionInfo {
-    lateinit var name: String
-}
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class ConnectionInfo (
+    val seminar_name: String
+)
