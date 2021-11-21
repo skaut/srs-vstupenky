@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">SRS čtečka</string>
-    <string name="activity_main_tv_connected_srs_label">Název SRS:</string>
-    <string name="activity_main_tv_connected_srs_name_default">nepropojeno</string>
+
+    <string name="activity_main_tv_connected_srs_label">Název SRS: </string>
+    <string name="activity_main_tv_connected_srs_text_default">nepropojeno</string>
     <string name="activity_main_btn_connect_srs">Propojit se SRS</string>
     <string name="activity_main_btn_disconnect_srs">Odpojit od SRS</string>
     <string name="activity_main_btn_scan_tickets">Kontrola vstupenek</string>
+
+    <string name="dialog_ticket_tv_name_label">Jméno: </string>
+    <string name="dialog_ticket_tv_roles_label">Role: </string>
+    <string name="dialog_ticket_tv_subevents_label">Podakce: </string>
+    <string name="dialog_ticket_tv_checks_label">Kontrolováno: </string>
 </resources>

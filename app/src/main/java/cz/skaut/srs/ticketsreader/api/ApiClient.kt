@@ -35,9 +35,7 @@ class ApiClient(private val context: Context) {
     suspend fun getTicketInfo(id: String): TicketInfo {
         checkConnectionPreferences()
 
-        val response: HttpResponse = client.get(Preferences.apiUrl + "tickets/check-ticket") {
-            parameter("id", id)
-        }
+        val response: HttpResponse = client.get(Preferences.apiUrl + "tickets/check-ticket/" + id)
         val responseObject: TicketInfo = response.receive()
 
         return responseObject
@@ -48,5 +46,4 @@ class ApiClient(private val context: Context) {
             throw Exception() // todo
         }
     }
-
 }

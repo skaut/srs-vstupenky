@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         btnConnectSrs = findViewById(R.id.activity_main_btn_connect_srs)
         btnDisconnectSrs = findViewById(R.id.activity_main_btn_disconnect_srs)
         btnScanTickets = findViewById(R.id.activity_main_btn_scan_tickets)
-        tvConnectedEventName = findViewById(R.id.activity_main_tv_connected_srs_name)
+        tvConnectedEventName = findViewById(R.id.activity_main_tv_connected_srs_text)
 
         Preferences.init(this)
 
@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         btnConnectSrs.visibility = if (Preferences.srsConnected) Button.GONE else Button.VISIBLE
         btnDisconnectSrs.visibility = if (Preferences.srsConnected) Button.VISIBLE else Button.GONE
         btnScanTickets.visibility = if (Preferences.srsConnected) Button.VISIBLE else Button.GONE
-
-        tvConnectedEventName.text = if (Preferences.srsConnected) Preferences.srsName else R.string.activity_main_tv_connected_srs_name_default.toString()
+        tvConnectedEventName.text = if (Preferences.srsConnected) Preferences.srsName else getString(R.string.activity_main_tv_connected_srs_text_default)
     }
 }
