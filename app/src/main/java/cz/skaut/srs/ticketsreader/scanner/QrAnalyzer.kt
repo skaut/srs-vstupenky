@@ -1,8 +1,8 @@
 package cz.skaut.srs.ticketsreader.scanner
 
-import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.media.ThumbnailUtils
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -17,7 +17,8 @@ class QrAnalyzer(
     private val previewViewWidth: Float,
     private val previewViewHeight: Float
 ) : ImageAnalysis.Analyzer {
-    @SuppressLint("UnsafeOptInUsageError")
+
+    @ExperimentalGetImage
     override fun analyze(image: ImageProxy) {
         val img = image.image
         if (img != null) {
@@ -37,13 +38,14 @@ class QrAnalyzer(
 
             scanner.process(analysisImage)
                 .addOnSuccessListener { barcodes ->
-                    if (barcodes.isNotEmpty()) {
-                        for (barcode in barcodes) {
-                            qrProcessor.process(barcode.rawValue!!)
-                            barcode.boundingBox?.let { rect -> qrBoxView.setRect(rect) }
+                    if (!qrProcessor.dialogActive) {
+                        if (barcodes.isNotEmpty()) {
+                            qrProcessor.dialogActive = true
+                            qrProcessor.process(barcodes.get(0).rawValue!!)
+                            barcodes.get(0).boundingBox?.let { rect -> qrBoxView.setRect(rect) }
+                        } else {
+                            qrBoxView.setRect(Rect())
                         }
-                    } else {
-                        qrBoxView.setRect(Rect())
                     }
                 }
                 .addOnFailureListener { }

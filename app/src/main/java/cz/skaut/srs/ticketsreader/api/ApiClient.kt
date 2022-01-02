@@ -9,9 +9,12 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import io.ktor.http.*
 
 class ApiClient() {
     val client = HttpClient() {
+        expectSuccess = false
+
         install(JsonFeature)
 
         val token: String = Preferences.apiToken ?: throw Exception()
@@ -23,20 +26,19 @@ class ApiClient() {
 
     suspend fun getSeminarInfo(): SeminarInfo {
         checkConnectionPreferences()
-
-        val response: SeminarInfo = client.get(Preferences.apiUrl + "tickets/seminar")
-
-        return response
+        val response: HttpResponse = client.get(Preferences.apiUrl + "tickets/seminar")
+        if (response.status != HttpStatusCode.OK)
+            throw ApiException(response.readText())
+        return response.receive()
     }
 
     suspend fun checkTicket(userId: Int): TicketCheckInfo {
         checkConnectionPreferences()
-
         val response: HttpResponse =
             client.get(Preferences.apiUrl + "tickets/check-ticket/?userId=" + userId + "&subeventId=" + Preferences.selectedSubeventId)
-        val responseObject: TicketCheckInfo = response.receive()
-
-        return responseObject
+        if (response.status != HttpStatusCode.OK)
+            throw ApiException(response.readText())
+        return response.receive()
     }
 
     private fun checkConnectionPreferences() {

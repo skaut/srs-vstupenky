@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import cz.skaut.srs.ticketsreader.api.ApiClient
+import cz.skaut.srs.ticketsreader.api.ApiException
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import cz.skaut.srs.ticketsreader.scanner.ScannerActivity
 import kotlinx.coroutines.runBlocking
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         tvSeminarName = findViewById(R.id.activity_main_tv_seminar_name_text)
 
         Preferences.init(this)
-
         updateUI()
 
         btnConnectSrs.setOnClickListener {
@@ -42,33 +42,32 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnDisconnectSrs.setOnClickListener {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            val alert = builder.setMessage("Opravdu odpojit?")
-                .setTitle("Odpojeni od SRS")
-                .setPositiveButton("Ano") { dialog, _ ->
+            AlertDialog.Builder(this)
+                .setMessage(R.string.activity_main_btn_disconnect_srs_confirm_message)
+                .setTitle(R.string.activity_main_btn_disconnect_srs_confirm_title)
+                .setPositiveButton(R.string.common_yes) { dialog, _ ->
                     dialog.dismiss()
                     Preferences.removeConnectionInfo()
-                    Preferences.removeSeminarInfo()
                     updateUI()
                 }
-                .setNegativeButton("Ne") { dialog, _ ->
+                .setNegativeButton(R.string.common_no) { dialog, _ ->
                     dialog.dismiss()
                 }
-                .create()
-            alert.show()
+                .show()
         }
 
         btnRefresh.setOnClickListener {
             val apiClient = ApiClient()
-
-            val seminarInfo: SeminarInfo
-            runBlocking {
-                seminarInfo = apiClient.getSeminarInfo()
+            try {
+                val seminarInfo: SeminarInfo
+                runBlocking {
+                    seminarInfo = apiClient.getSeminarInfo()
+                }
+                Preferences.setSeminarInfo(seminarInfo)
+                updateUI()
+            } catch (e: ApiException) {
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
-
-            Preferences.setSeminarInfo(seminarInfo)
-
-            updateUI()
         }
 
         btnScanTickets.setOnClickListener {
@@ -99,17 +98,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateUI() {
-        btnConnectSrs.visibility = if (Preferences.connected) Button.GONE else Button.VISIBLE
-        btnDisconnectSrs.visibility = if (Preferences.connected) Button.VISIBLE else Button.GONE
-        btnRefresh.visibility = if (Preferences.connected) Button.VISIBLE else Button.GONE
-        btnScanTickets.visibility = if (Preferences.connected) Button.VISIBLE else Button.GONE
+        if (Preferences.connected) {
+            btnConnectSrs.visibility = Button.GONE
+            btnDisconnectSrs.visibility = Button.VISIBLE
+            btnRefresh.visibility = Button.VISIBLE
+            btnScanTickets.visibility = Button.VISIBLE
+            tvSeminarName.text = Preferences.seminarName
+        } else {
+            btnConnectSrs.visibility = Button.VISIBLE
+            btnDisconnectSrs.visibility = Button.GONE
+            btnRefresh.visibility = Button.GONE
+            btnScanTickets.visibility = Button.GONE
+            tvSeminarName.text = getString(R.string.activity_main_tv_seminar_name_text_default)
+        }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, Preferences.subevents)
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spnSubevent.adapter = adapter
         spnSubevent.setSelection(Preferences.selectedSubeventPosition)
-
-        tvSeminarName.text = Preferences.seminarName
-            ?: getString(R.string.activity_main_tv_seminar_name_text_default)
     }
 }

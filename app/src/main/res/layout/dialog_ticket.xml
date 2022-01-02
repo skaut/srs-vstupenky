@@ -2,7 +2,11 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="?android:attr/dialogPreferredPadding"
+    android:paddingTop="5dp"
+    android:paddingEnd="?android:attr/dialogPreferredPadding"
+    android:paddingBottom="5dp">
 
     <TableRow
         android:layout_width="match_parent"
@@ -12,6 +16,7 @@
             android:id="@+id/dialog_ticket_tv_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/dialog_ticket_tv_name_label" />
 
         <TextView
@@ -28,6 +33,7 @@
             android:id="@+id/dialog_ticket_tv_roles_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/dialog_ticket_tv_roles_label" />
 
         <TextView
@@ -44,6 +50,7 @@
             android:id="@+id/dialog_ticket_tv_subevents_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/dialog_ticket_tv_subevents_label" />
 
         <TextView
@@ -60,6 +67,7 @@
             android:id="@+id/dialog_ticket_tv_checks_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/dialog_ticket_tv_checks_label" />
 
         <TextView
