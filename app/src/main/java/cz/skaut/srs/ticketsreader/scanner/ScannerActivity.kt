@@ -42,7 +42,11 @@ class ScannerActivity : AppCompatActivity() {
             )
         )
 
-        qrProcessor = if (intent.getBooleanExtra("connection_mode", false)) ConnectionQrProcessor(this) else TicketQrProcessor(this)
+        qrProcessor = if (intent.getBooleanExtra(
+                "connection_mode",
+                false
+            )
+        ) ConnectionQrProcessor(this) else TicketQrProcessor(this)
 
         checkCameraPermission()
     }
@@ -52,7 +56,11 @@ class ScannerActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         checkIfCameraPermissionIsGranted()
     }
@@ -67,7 +75,11 @@ class ScannerActivity : AppCompatActivity() {
     }
 
     private fun checkIfCameraPermissionIsGranted() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             startCamera()
         } else {
             MaterialAlertDialogBuilder(this)
@@ -99,7 +111,12 @@ class ScannerActivity : AppCompatActivity() {
                     it.setSurfaceProvider(binding.previewView.surfaceProvider)
                 }
 
-            val qrCodeAnalyzer = QrAnalyzer(qrProcessor, qrBoxView, binding.previewView.width.toFloat(), binding.previewView.height.toFloat())
+            val qrCodeAnalyzer = QrAnalyzer(
+                qrProcessor,
+                qrBoxView,
+                binding.previewView.width.toFloat(),
+                binding.previewView.height.toFloat()
+            )
 
             val imageAnalyzer = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)

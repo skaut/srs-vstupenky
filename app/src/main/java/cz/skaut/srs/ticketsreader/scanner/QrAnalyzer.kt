@@ -23,7 +23,11 @@ class QrAnalyzer(
         if (img != null) {
             val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
             val bitmap = ImageConvertUtils.getInstance().getUpRightBitmap(inputImage)
-            val resizedBitmap = ThumbnailUtils.extractThumbnail(bitmap, previewViewWidth.toInt(), previewViewHeight.toInt())
+            val resizedBitmap = ThumbnailUtils.extractThumbnail(
+                bitmap,
+                previewViewWidth.toInt(),
+                previewViewHeight.toInt()
+            )
             val analysisImage = InputImage.fromBitmap(resizedBitmap, 0)
 
             val options = BarcodeScannerOptions.Builder()

@@ -8,37 +8,71 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:layout_width="413dp"
-        android:layout_height="732dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.47000003">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/activity_main_tv_seminar_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:labelFor="@id/activity_main_tv_seminar_name_text"
+                    android:text="@string/activity_main_tv_seminar_name_label"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/activity_main_tv_seminar_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_main_tv_seminar_name_text_default"
+                    android:textSize="24sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/activity_main_tv_subevent_name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:labelFor="@id/activity_main_spn_subevent"
+                    android:text="@string/activity_main_tv_subevent_name_label"
+                    android:textSize="24sp" />
+
+                <Spinner
+                    android:id="@+id/activity_main_spn_subevent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="48dip"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+            </TableRow>
+
+        </TableLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="center|center_horizontal">
-
-            <TextView
-                android:id="@+id/activity_main_tv_connected_srs_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_main_tv_connected_srs_label"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/activity_main_tv_connected_srs_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_main_tv_connected_srs_text_default"
-                android:textSize="24sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="532dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-5dp"
+            android:layout_marginEnd="-5dp"
             android:gravity="center|center_horizontal"
             android:orientation="horizontal">
 
@@ -48,30 +82,54 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
+                android:layout_weight="1"
                 android:backgroundTint="#4CAF50"
                 android:text="@string/activity_main_btn_connect_srs"
-                android:textSize="14sp" />
+                tools:ignore="TextContrastCheck" />
 
             <Button
                 android:id="@+id/activity_main_btn_disconnect_srs"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="#F44336"
                 android:text="@string/activity_main_btn_disconnect_srs"
-                android:visibility="gone" />
+                tools:ignore="TextContrastCheck" />
 
             <Button
-                android:id="@+id/activity_main_btn_scan_tickets"
+                android:id="@+id/activity_main_btn_refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:backgroundTint="#FFC107"
+                android:text="@string/activity_main_btn_refresh"
+                tools:ignore="TextContrastCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="-5dp"
+            android:layout_marginEnd="-5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/activity_main_btn_scan_tickets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:backgroundTint="#2196F3"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:text="@string/activity_main_btn_scan_tickets"
-                android:visibility="gone" />
+                android:textSize="20sp"
+                tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </LinearLayout>
 

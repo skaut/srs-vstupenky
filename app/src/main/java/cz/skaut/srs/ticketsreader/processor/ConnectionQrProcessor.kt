@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import cz.skaut.srs.ticketsreader.Preferences
 import cz.skaut.srs.ticketsreader.api.ApiClient
-import cz.skaut.srs.ticketsreader.api.dto.ConnectionInfo
+import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -17,14 +17,14 @@ class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
         val apiToken = jsonObject.getString("apiToken")
         Preferences.setConnectionInfo(apiUrl, apiToken)
 
-        val apiClient = ApiClient(context)
+        val apiClient = ApiClient()
 
-        val connectionInfo: ConnectionInfo
+        val seminarInfo: SeminarInfo
         runBlocking {
-            connectionInfo = apiClient.getConnectionInfo()
+            seminarInfo = apiClient.getSeminarInfo()
         }
 
-        Preferences.setConnectionName(connectionInfo.seminar_name)
+        Preferences.setSeminarInfo(seminarInfo)
 
         if (context is Activity) context.finish()
     }

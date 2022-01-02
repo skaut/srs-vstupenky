@@ -1,19 +1,16 @@
 package cz.skaut.srs.ticketsreader.api
 
-import android.content.Context
-import android.widget.Toast
 import cz.skaut.srs.ticketsreader.Preferences
-import cz.skaut.srs.ticketsreader.api.dto.ConnectionInfo
-import cz.skaut.srs.ticketsreader.api.dto.TicketInfo
+import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
+import cz.skaut.srs.ticketsreader.api.dto.TicketCheckInfo
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
 
-class ApiClient(private val context: Context) {
+class ApiClient() {
     val client = HttpClient() {
         install(JsonFeature)
 
@@ -24,19 +21,20 @@ class ApiClient(private val context: Context) {
         }
     }
 
-    suspend fun getConnectionInfo(): ConnectionInfo {
+    suspend fun getSeminarInfo(): SeminarInfo {
         checkConnectionPreferences()
 
-        val response: ConnectionInfo = client.get(Preferences.apiUrl + "tickets/connect")
+        val response: SeminarInfo = client.get(Preferences.apiUrl + "tickets/seminar")
 
         return response
     }
 
-    suspend fun getTicketInfo(id: String): TicketInfo {
+    suspend fun checkTicket(userId: Int): TicketCheckInfo {
         checkConnectionPreferences()
 
-        val response: HttpResponse = client.get(Preferences.apiUrl + "tickets/check-ticket/" + id)
-        val responseObject: TicketInfo = response.receive()
+        val response: HttpResponse =
+            client.get(Preferences.apiUrl + "tickets/check-ticket/?userId=" + userId + "&subeventId=" + Preferences.selectedSubeventId)
+        val responseObject: TicketCheckInfo = response.receive()
 
         return responseObject
     }

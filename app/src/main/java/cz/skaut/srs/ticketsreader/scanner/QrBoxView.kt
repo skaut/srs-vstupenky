@@ -1,7 +1,10 @@
 package cz.skaut.srs.ticketsreader.scanner
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.view.View
 import androidx.core.graphics.toRectF
 
