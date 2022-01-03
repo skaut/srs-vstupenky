@@ -7,15 +7,20 @@ import cz.skaut.srs.ticketsreader.api.ApiClient
 import cz.skaut.srs.ticketsreader.api.ApiException
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import kotlinx.coroutines.runBlocking
+import org.json.JSONException
 import org.json.JSONObject
 import org.json.JSONTokener
 
 class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
     override fun process(value: String) {
-        val qrJson = JSONTokener(value).nextValue() as JSONObject
-        val apiUrl = qrJson.getString("apiUrl")
-        val apiToken = qrJson.getString("apiToken")
-        Preferences.setConnectionInfo(apiUrl, apiToken)
+        try {
+            val qrJson = JSONTokener(value).nextValue() as JSONObject
+            val apiUrl = qrJson.getString("apiUrl")
+            val apiToken = qrJson.getString("apiToken")
+            Preferences.setConnectionInfo(apiUrl, apiToken)
+        } catch (e: JSONException) {
+            showAlertDialog(e.message)
+        }
 
         val apiClient = ApiClient()
         try {

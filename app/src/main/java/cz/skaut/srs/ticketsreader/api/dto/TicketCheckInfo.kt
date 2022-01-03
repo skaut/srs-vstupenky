@@ -8,5 +8,6 @@ data class TicketCheckInfo(
     val attendee_name: String,
     val roles: Array<String>,
     val subevents: Array<SubeventInfo>,
+    val has_subevent: Boolean,
     val subevent_checks: Array<Instant>,
 )
