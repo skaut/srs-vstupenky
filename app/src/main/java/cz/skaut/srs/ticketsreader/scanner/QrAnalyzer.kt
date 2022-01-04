@@ -31,16 +31,15 @@ class QrAnalyzer(
             )
             val analysisImage = InputImage.fromBitmap(resizedBitmap, 0)
 
-            val options = BarcodeScannerOptions.Builder()
-                .build()
+            val options = BarcodeScannerOptions.Builder().build()
 
             val scanner = BarcodeScanning.getClient(options)
 
             scanner.process(analysisImage)
                 .addOnSuccessListener { barcodes ->
-                    if (!qrProcessor.dialogActive) {
+                    if (!qrProcessor.processingActive) {
                         if (barcodes.isNotEmpty()) {
-                            qrProcessor.dialogActive = true
+                            qrProcessor.processingActive = true
                             qrProcessor.process(barcodes.get(0).rawValue!!)
                             barcodes.get(0).boundingBox?.let { rect -> qrBoxView.setRect(rect) }
                         } else {
@@ -50,7 +49,6 @@ class QrAnalyzer(
                 }
                 .addOnFailureListener { }
         }
-
         image.close()
     }
 }

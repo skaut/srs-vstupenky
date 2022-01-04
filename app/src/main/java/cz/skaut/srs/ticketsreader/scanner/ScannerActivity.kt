@@ -42,11 +42,8 @@ class ScannerActivity : AppCompatActivity() {
             )
         )
 
-        qrProcessor = if (intent.getBooleanExtra(
-                "connection_mode",
-                false
-            )
-        ) ConnectionQrProcessor(this) else TicketQrProcessor(this)
+        qrProcessor = if (intent.getBooleanExtra("connection_mode", false))
+            ConnectionQrProcessor(this) else TicketQrProcessor(this)
 
         checkCameraPermission()
     }
@@ -83,7 +80,7 @@ class ScannerActivity : AppCompatActivity() {
             startCamera()
         } else {
             MaterialAlertDialogBuilder(this)
-                .setTitle("Permission required")
+                .setTitle("Permission required") // todo: strings konstanty
                 .setMessage("This application needs to access the camera to process barcodes")
                 .setPositiveButton("Ok") { _, _ ->
                     checkCameraPermission()
