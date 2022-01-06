@@ -104,7 +104,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="#FFC107"
+                android:backgroundTint="@color/orange_800"
                 android:text="@string/activity_main_btn_refresh"
                 tools:ignore="TextContrastCheck" />
 
@@ -115,6 +115,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="-5dp"
             android:layout_marginEnd="-5dp"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <Button
@@ -123,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:backgroundTint="#2196F3"
+                android:backgroundTint="@color/blue_800"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/activity_main_btn_scan_tickets"
