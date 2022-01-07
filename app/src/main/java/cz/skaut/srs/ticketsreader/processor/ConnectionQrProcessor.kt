@@ -3,21 +3,25 @@ package cz.skaut.srs.ticketsreader.processor
 import android.app.Activity
 import android.content.Context
 import cz.skaut.srs.ticketsreader.Preferences
+import cz.skaut.srs.ticketsreader.R
 import cz.skaut.srs.ticketsreader.api.ApiClient
 import cz.skaut.srs.ticketsreader.api.ApiConfigException
-import cz.skaut.srs.ticketsreader.api.ApiException
+import cz.skaut.srs.ticketsreader.api.ApiConnectionException
+import cz.skaut.srs.ticketsreader.api.ApiErrorResponseException
+import cz.skaut.srs.ticketsreader.api.ApiSerializationException
+import cz.skaut.srs.ticketsreader.api.ApiUnknownErrorException
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
+import cz.skaut.srs.ticketsreader.processor.dto.ConnectionInfo
 import kotlinx.coroutines.runBlocking
-import org.json.JSONException
-import org.json.JSONObject
-import org.json.JSONTokener
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 
 class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
     override fun process(value: String) {
         try {
-            val qrJson = JSONTokener(value).nextValue() as JSONObject // todo: pouzit dto
-            val apiUrl = qrJson.getString("apiUrl")
-            val apiToken = qrJson.getString("apiToken")
+            val connectionInfo = Json.decodeFromString(ConnectionInfo.serializer(), value)
+            val apiUrl = connectionInfo.apiUrl
+            val apiToken = connectionInfo.apiToken
             Preferences.setConnectionInfo(apiUrl, apiToken)
 
             val apiClient = ApiClient()
@@ -26,15 +30,25 @@ class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
                 seminarInfo = apiClient.getSeminarInfo()
             }
             Preferences.setSeminarInfo(seminarInfo)
-        } catch (e: JSONException) {
-            // todo: hlaska o nevalidnim QR kodu
-        } catch (e: ApiConfigException) {
-            // todo: hlaska o chybejicim nastaveni
-        } catch (e: ApiException) {
-            Preferences.removeConnectionInfo()
-            showErrorDialog(e.message) // todo: extrakce z JSON
-        }
 
-        if (context is Activity) context.finish()
+            if (context is Activity) context.finish()
+        } catch (e: SerializationException) {
+            showErrorDialog(R.string.dialog_error_message_invalid_connection_qr)
+        } catch (e: ApiConfigException) {
+            Preferences.removeConnectionInfo()
+            showErrorDialog(R.string.dialog_error_message_api_config_error)
+        } catch (e: ApiConnectionException) {
+            Preferences.removeConnectionInfo()
+            showErrorDialog(R.string.dialog_error_message_api_connection_error)
+        } catch (e: ApiUnknownErrorException) {
+            Preferences.removeConnectionInfo()
+            showErrorDialog(R.string.dialog_error_message_api_unknown_error)
+        } catch (e: ApiSerializationException) {
+            Preferences.removeConnectionInfo()
+            showErrorDialog(R.string.dialog_error_message_api_serialization_error)
+        } catch (e: ApiErrorResponseException) {
+            Preferences.removeConnectionInfo()
+            showErrorDialog(e.message)
+        }
     }
 }

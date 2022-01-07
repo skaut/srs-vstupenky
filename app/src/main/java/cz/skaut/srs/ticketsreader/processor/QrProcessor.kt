@@ -10,12 +10,16 @@ abstract class QrProcessor(
 ) {
     abstract fun process(value: String)
 
+    protected fun showErrorDialog(message: Int) {
+        showErrorDialog(context.getString(message))
+    }
+
     protected fun showErrorDialog(message: String?) {
         MaterialAlertDialogBuilder(context)
             .setMessage(message)
-            .setTitle(R.string.ticket_check_dialog_title_error)
+            .setTitle(R.string.dialog_error_title)
             .setPositiveButton(R.string.common_ok) { dialog, _ ->
-                dialog.dismiss(); processingActive = false;
+                dialog.dismiss(); processingActive = false
             }
             .setCancelable(false)
             .show()

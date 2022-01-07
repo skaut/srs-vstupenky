@@ -3,13 +3,18 @@ package cz.skaut.srs.ticketsreader.api
 import cz.skaut.srs.ticketsreader.Preferences
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import cz.skaut.srs.ticketsreader.api.dto.TicketCheckInfo
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.receive
+import io.ktor.client.features.defaultRequest
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.readText
+import io.ktor.http.HttpStatusCode
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class ApiClient() {
     val client = HttpClient() {
@@ -26,27 +31,43 @@ class ApiClient() {
     }
 
     suspend fun getSeminarInfo(): SeminarInfo {
-        val response: HttpResponse = client.get(Preferences.apiUrl + "tickets/seminar")
-        if (response.status != HttpStatusCode.OK) {
-            throw ApiException(response.readText())
-        }
-        return response.receive()
+        return getValidResponse("${Preferences.apiUrl}tickets/seminar")
     }
 
     suspend fun checkTicket(userId: Int): TicketCheckInfo {
-        val response: HttpResponse = client.get(
-            Preferences.apiUrl + "tickets/check-ticket/?userId=" + userId
-                    + "&subeventId=" + Preferences.selectedSubeventId
+        return getValidResponse(
+            "${Preferences.apiUrl}tickets/check-ticket/?userId=$userId" +
+                "&subeventId=${Preferences.selectedSubeventId}"
         )
-        if (response.status != HttpStatusCode.OK) {
-            throw ApiException(response.readText())
-        }
-        return response.receive()
     }
 
     private fun checkConnectionPreferences() {
         if (Preferences.apiUrl == null || Preferences.apiToken == null) {
             throw ApiConfigException()
+        }
+    }
+
+    private suspend inline fun <reified T> getValidResponse(url: String): T {
+        val response: HttpResponse
+        try {
+            response = client.get(url)
+        } catch (e: Throwable) {
+            throw ApiConnectionException()
+        }
+
+        if (response.status != HttpStatusCode.OK) {
+            try {
+                val message = Json.decodeFromString<String>(response.readText())
+                throw ApiErrorResponseException(message)
+            } catch (e: SerializationException) {
+                throw ApiUnknownErrorException()
+            }
+        }
+
+        try {
+            return response.receive()
+        } catch (e: SerializationException) {
+            throw ApiSerializationException()
         }
     }
 }

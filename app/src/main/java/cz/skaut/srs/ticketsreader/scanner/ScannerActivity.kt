@@ -12,6 +12,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import cz.skaut.srs.ticketsreader.R
 import cz.skaut.srs.ticketsreader.databinding.ActivityScannerBinding
 import cz.skaut.srs.ticketsreader.processor.ConnectionQrProcessor
 import cz.skaut.srs.ticketsreader.processor.QrProcessor
@@ -80,9 +81,9 @@ class ScannerActivity : AppCompatActivity() {
             startCamera()
         } else {
             MaterialAlertDialogBuilder(this)
-                .setTitle("Permission required") // todo: strings konstanty
-                .setMessage("This application needs to access the camera to process barcodes")
-                .setPositiveButton("Ok") { _, _ ->
+                .setTitle(R.string.dialog_permission_title)
+                .setMessage(R.string.dialog_permission_message_camera_required)
+                .setPositiveButton(R.string.common_ok) { _, _ ->
                     checkCameraPermission()
                 }
                 .setCancelable(false)

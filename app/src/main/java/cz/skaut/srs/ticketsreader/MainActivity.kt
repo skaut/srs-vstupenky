@@ -4,14 +4,22 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import cz.skaut.srs.ticketsreader.api.ApiClient
-import cz.skaut.srs.ticketsreader.api.ApiException
+import cz.skaut.srs.ticketsreader.api.ApiConfigException
+import cz.skaut.srs.ticketsreader.api.ApiConnectionException
+import cz.skaut.srs.ticketsreader.api.ApiErrorResponseException
+import cz.skaut.srs.ticketsreader.api.ApiSerializationException
+import cz.skaut.srs.ticketsreader.api.ApiUnknownErrorException
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import cz.skaut.srs.ticketsreader.scanner.ScannerActivity
 import kotlinx.coroutines.runBlocking
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var btnConnectSrs: Button
@@ -57,16 +65,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnRefresh.setOnClickListener {
-            val apiClient = ApiClient()
             try {
+                val apiClient = ApiClient()
                 val seminarInfo: SeminarInfo
                 runBlocking {
                     seminarInfo = apiClient.getSeminarInfo()
                 }
                 Preferences.setSeminarInfo(seminarInfo)
                 updateUI()
-            } catch (e: ApiException) {
-                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            } catch (e: ApiConfigException) {
+                showToast(R.string.dialog_error_message_api_config_error)
+            } catch (e: ApiConnectionException) {
+                showToast(R.string.dialog_error_message_api_connection_error)
+            } catch (e: ApiUnknownErrorException) {
+                showToast(R.string.dialog_error_message_api_unknown_error)
+            } catch (e: ApiSerializationException) {
+                showToast(R.string.dialog_error_message_api_serialization_error)
+            } catch (e: ApiErrorResponseException) {
+                showToast(e.message)
             }
         }
 
@@ -116,5 +132,13 @@ class MainActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         spnSubevent.adapter = adapter
         spnSubevent.setSelection(Preferences.selectedSubeventPosition)
+    }
+
+    fun showToast(message: Int) {
+        showToast(getString(message))
+    }
+
+    fun showToast(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

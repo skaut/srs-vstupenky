@@ -16,14 +16,23 @@
     <string name="dialog_ticket_tv_subevents_label">Podakce: </string>
     <string name="dialog_ticket_tv_checks_label">Kontrolováno: </string>
 
-    <string name="ticket_check_dialog_title_error">Chyba</string>
-    <string name="ticket_check_dialog_title_info">Informace o vstupence</string>
-    <string name="ticket_check_error_invalid_qr_code">Neplatný QR kód.</string>
-    <string name="ticket_check_status_valid">Platná</string>
-    <string name="ticket_check_status_used">Použitá</string>
-    <string name="ticket_check_status_invalid">Neplatná</string>
-    <string name="ticket_check_message_used">Vstupenka již byla dříve načtena.</string>
-    <string name="ticket_check_message_missing_subevent">Účastník nemá kontrolovanou podakci.</string>
+    <string name="dialog_ticket_title">Informace o vstupence</string>
+    <string name="dialog_ticket_status_valid">Platná</string>
+    <string name="dialog_ticket_status_used">Použitá</string>
+    <string name="dialog_ticket_status_invalid">Neplatná</string>
+    <string name="dialog_ticket_message_used">Vstupenka již byla dříve načtena.</string>
+    <string name="dialog_ticket_message_missing_subevent">Účastník nemá kontrolovanou podakci.</string>
+
+    <string name="dialog_error_title">Chyba</string>
+    <string name="dialog_error_message_invalid_ticket_qr">Neplatný QR kód vstupenky.</string>
+    <string name="dialog_error_message_invalid_connection_qr">Neplatný QR kód pro propojení se SRS.</string>
+    <string name="dialog_error_message_api_config_error">Propojení se SRS není nastaveno.</string>
+    <string name="dialog_error_message_api_connection_error">Připojení k SRS se nezdařilo, zkontrolujte připojení k internetu.</string>
+    <string name="dialog_error_message_api_unknown_error">Při připojení k SRS došlo k neznámé chybě.</string>
+    <string name="dialog_error_message_api_serialization_error">Neplatná odpověď SRS.</string>
+
+    <string name="dialog_permission_title">Vyžadováno oprávnění</string>
+    <string name="dialog_permission_message_camera_required">Tato aplikace vyžaduje přístup k fotoaparátu pro skenování QR kódů.</string>
 
     <string name="common_yes">Ano</string>
     <string name="common_no">Ne</string>
