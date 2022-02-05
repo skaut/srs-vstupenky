@@ -1,3 +1,3 @@
 package cz.skaut.srs.ticketsreader.api
 
-class ApiSerializationException() : Throwable()
+class ApiSerializationException(cause: Throwable) : Throwable(cause)

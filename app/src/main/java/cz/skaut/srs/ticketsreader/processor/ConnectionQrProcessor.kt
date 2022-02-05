@@ -15,8 +15,11 @@ import cz.skaut.srs.ticketsreader.processor.dto.ConnectionInfo
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
+import org.slf4j.LoggerFactory
 
 class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
+    private val log = LoggerFactory.getLogger(this.javaClass)
+
     override fun process(value: String) {
         try {
             val connectionInfo = Json.decodeFromString(ConnectionInfo.serializer(), value)
@@ -34,21 +37,27 @@ class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
             if (context is Activity) context.finish()
         } catch (e: SerializationException) {
             showErrorDialog(R.string.dialog_error_message_invalid_connection_qr)
+            log.debug(e.message)
         } catch (e: ApiConfigException) {
             Preferences.removeConnectionInfo()
             showErrorDialog(R.string.dialog_error_message_api_config_error)
+            log.debug(e.message)
         } catch (e: ApiConnectionException) {
             Preferences.removeConnectionInfo()
             showErrorDialog(R.string.dialog_error_message_api_connection_error)
+            log.debug(e.message)
         } catch (e: ApiUnknownErrorException) {
             Preferences.removeConnectionInfo()
             showErrorDialog(R.string.dialog_error_message_api_unknown_error)
+            log.debug(e.message)
         } catch (e: ApiSerializationException) {
             Preferences.removeConnectionInfo()
             showErrorDialog(R.string.dialog_error_message_api_serialization_error)
+            log.debug(e.message)
         } catch (e: ApiErrorResponseException) {
             Preferences.removeConnectionInfo()
             showErrorDialog(e.message)
+            log.debug(e.message)
         }
     }
 }

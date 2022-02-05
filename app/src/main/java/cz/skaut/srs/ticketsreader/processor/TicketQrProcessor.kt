@@ -17,9 +17,11 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toJavaInstant
+import org.slf4j.LoggerFactory
 
 class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
-    val DATETIME_FORMATTER: DateTimeFormatter =
+    private val log = LoggerFactory.getLogger(this.javaClass)
+    private val dateTimeFormatter: DateTimeFormatter =
         DateTimeFormatter.ofPattern("d. M. yyyy H:mm:ss").withZone(ZoneId.systemDefault())
 
     override fun process(value: String) {
@@ -32,16 +34,22 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
             showTicketCheckInfoDialog(ticketCheckInfo)
         } catch (e: NumberFormatException) {
             showErrorDialog(context.getString(R.string.dialog_error_message_invalid_ticket_qr))
+            log.debug(e.message)
         } catch (e: ApiConfigException) {
             showErrorDialog(R.string.dialog_error_message_api_config_error)
+            log.debug(e.message)
         } catch (e: ApiConnectionException) {
             showErrorDialog(R.string.dialog_error_message_api_connection_error)
+            log.debug(e.message)
         } catch (e: ApiUnknownErrorException) {
             showErrorDialog(R.string.dialog_error_message_api_unknown_error)
+            log.debug(e.message)
         } catch (e: ApiSerializationException) {
             showErrorDialog(R.string.dialog_error_message_api_serialization_error)
+            log.debug(e.message)
         } catch (e: ApiErrorResponseException) {
             showErrorDialog(e.message)
+            log.debug(e.message)
         }
     }
 
@@ -77,7 +85,7 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
             .map { it.name }
             .joinToString(", ")
         tvChecks.text = ticketInfo.subevent_checks
-            .map { DATETIME_FORMATTER.format(it.toJavaInstant()) }
+            .map { dateTimeFormatter.format(it.toJavaInstant()) }
             .joinToString("\n")
 
         MaterialAlertDialogBuilder(context)
