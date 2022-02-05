@@ -20,8 +20,5 @@ jobs:
         java-version: 11
         distribution: 'adopt'
 
-#    - name: Setup Gradle
-#      uses: gradle/gradle-build-action@v2
-
     - name: Run Detekt
       run: ./gradlew detekt
