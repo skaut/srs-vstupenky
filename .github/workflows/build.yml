@@ -1,4 +1,4 @@
-name: Scan with Detekt
+name: build
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  scan:
-    name: Scan
+  build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -20,5 +20,5 @@ jobs:
         java-version: 11
         distribution: 'adopt'
 
-    - name: Run Detekt
-      run: ./gradlew detekt
+    - name: Build
+      run: ./gradlew build
