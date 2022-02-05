@@ -16,7 +16,7 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
-class ApiClient() {
+class ApiClient {
     val client = HttpClient() {
         checkConnectionPreferences()
 
@@ -24,7 +24,7 @@ class ApiClient() {
 
         install(JsonFeature)
 
-        val token: String = Preferences.apiToken ?: throw Exception()
+        val token: String = Preferences.apiToken!!
         defaultRequest {
             header("Api-Token", token)
         }
@@ -52,7 +52,7 @@ class ApiClient() {
         try {
             response = client.get(url)
         } catch (e: Throwable) {
-            throw ApiConnectionException()
+            throw ApiConnectionException(e)
         }
 
         if (response.status != HttpStatusCode.OK) {
@@ -60,14 +60,14 @@ class ApiClient() {
                 val message = Json.decodeFromString<String>(response.readText())
                 throw ApiErrorResponseException(message)
             } catch (e: SerializationException) {
-                throw ApiUnknownErrorException()
+                throw ApiUnknownErrorException(e)
             }
         }
 
         try {
             return response.receive()
         } catch (e: SerializationException) {
-            throw ApiSerializationException()
+            throw ApiSerializationException(e)
         }
     }
 }

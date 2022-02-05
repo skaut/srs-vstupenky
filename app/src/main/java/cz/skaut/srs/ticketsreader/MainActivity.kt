@@ -20,8 +20,11 @@ import cz.skaut.srs.ticketsreader.api.ApiUnknownErrorException
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import cz.skaut.srs.ticketsreader.scanner.ScannerActivity
 import kotlinx.coroutines.runBlocking
+import org.slf4j.LoggerFactory
 
 class MainActivity : AppCompatActivity() {
+    private val log = LoggerFactory.getLogger(this.javaClass)
+
     private lateinit var btnConnectSrs: Button
     private lateinit var btnDisconnectSrs: Button
     private lateinit var btnRefresh: Button
@@ -75,14 +78,19 @@ class MainActivity : AppCompatActivity() {
                 updateUI()
             } catch (e: ApiConfigException) {
                 showToast(R.string.dialog_error_message_api_config_error)
+                log.debug(e.message)
             } catch (e: ApiConnectionException) {
                 showToast(R.string.dialog_error_message_api_connection_error)
+                log.debug(e.message)
             } catch (e: ApiUnknownErrorException) {
                 showToast(R.string.dialog_error_message_api_unknown_error)
+                log.debug(e.message)
             } catch (e: ApiSerializationException) {
                 showToast(R.string.dialog_error_message_api_serialization_error)
+                log.debug(e.message)
             } catch (e: ApiErrorResponseException) {
                 showToast(e.message)
+                log.debug(e.message)
             }
         }
 

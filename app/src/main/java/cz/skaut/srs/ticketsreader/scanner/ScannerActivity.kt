@@ -17,10 +17,13 @@ import cz.skaut.srs.ticketsreader.databinding.ActivityScannerBinding
 import cz.skaut.srs.ticketsreader.processor.ConnectionQrProcessor
 import cz.skaut.srs.ticketsreader.processor.QrProcessor
 import cz.skaut.srs.ticketsreader.processor.TicketQrProcessor
+import org.slf4j.LoggerFactory
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class ScannerActivity : AppCompatActivity() {
+    private val log = LoggerFactory.getLogger(this.javaClass)
+
     private lateinit var binding: ActivityScannerBinding
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var qrBoxView: QrBoxView
@@ -69,6 +72,7 @@ class ScannerActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, requiredPermissions, 0)
         } catch (e: IllegalArgumentException) {
             checkIfCameraPermissionIsGranted()
+            log.debug(e.message)
         }
     }
 

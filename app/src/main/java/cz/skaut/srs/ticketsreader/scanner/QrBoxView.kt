@@ -9,18 +9,22 @@ import android.view.View
 import androidx.core.graphics.toRectF
 
 class QrBoxView(context: Context) : View(context) {
+    companion object {
+        private const val CORNER_RADIUS = 10f
+        private const val STROKE_WIDTH = 5f
+    }
+
     private val paint = Paint()
     private var rectangle = Rect()
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val cornerRadius = 10f
         paint.style = Paint.Style.STROKE
         paint.color = Color.RED
-        paint.strokeWidth = 5f
+        paint.strokeWidth = STROKE_WIDTH
 
-        canvas?.drawRoundRect(rectangle.toRectF(), cornerRadius, cornerRadius, paint)
+        canvas?.drawRoundRect(rectangle.toRectF(), CORNER_RADIUS, CORNER_RADIUS, paint)
     }
 
     fun setRect(rect: Rect) {

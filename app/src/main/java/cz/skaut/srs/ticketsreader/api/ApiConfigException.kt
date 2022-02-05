@@ -1,3 +1,3 @@
 package cz.skaut.srs.ticketsreader.api
 
-class ApiConfigException() : Throwable()
+class ApiConfigException : Throwable()

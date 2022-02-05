@@ -16,9 +16,9 @@ const val SUBEVENTS = "subevents"
 const val SELECTED_SUBEVENT_ID = "selectedSubeventId"
 const val SELECTED_SUBEVENT_POSITION = "selectedSubeventPosition"
 
-class Preferences() {
+class Preferences private constructor() {
     companion object {
-        private lateinit var preferences: SharedPreferences
+        private lateinit var prefs: SharedPreferences
 
         var connected: Boolean = false
         var apiUrl: String? = null
@@ -29,7 +29,7 @@ class Preferences() {
         var selectedSubeventPosition: Int = -1
 
         fun init(context: Context) {
-            preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            prefs = PreferenceManager.getDefaultSharedPreferences(context)
             load()
         }
 
@@ -72,23 +72,23 @@ class Preferences() {
         }
 
         private fun load() {
-            connected = preferences.getBoolean(CONNECTED, false)
-            apiUrl = preferences.getString(API_URL, null)
-            apiToken = preferences.getString(API_TOKEN, null)
-            seminarName = preferences.getString(SEMINAR_NAME, null)
+            connected = prefs.getBoolean(CONNECTED, false)
+            apiUrl = prefs.getString(API_URL, null)
+            apiToken = prefs.getString(API_TOKEN, null)
+            seminarName = prefs.getString(SEMINAR_NAME, null)
 
-            val subeventsStr = preferences.getString(SUBEVENTS, null)
+            val subeventsStr = prefs.getString(SUBEVENTS, null)
             subevents = if (subeventsStr != null) Json.decodeFromString(
                 serializer(),
                 subeventsStr
             ) else emptyArray()
 
-            selectedSubeventId = preferences.getInt(SELECTED_SUBEVENT_ID, -1)
-            selectedSubeventPosition = preferences.getInt(SELECTED_SUBEVENT_POSITION, 0)
+            selectedSubeventId = prefs.getInt(SELECTED_SUBEVENT_ID, -1)
+            selectedSubeventPosition = prefs.getInt(SELECTED_SUBEVENT_POSITION, 0)
         }
 
         private fun save() {
-            val edit = preferences.edit()
+            val edit = prefs.edit()
             edit.putBoolean(CONNECTED, connected)
             edit.putString(API_URL, apiUrl)
             edit.putString(API_TOKEN, apiToken)
