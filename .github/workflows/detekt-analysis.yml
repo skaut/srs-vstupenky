@@ -1,11 +1,6 @@
 name: Scan with Detekt
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:
+on: [push, pull_request]
 
 jobs:
   scan:
@@ -14,6 +9,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
 
     - name: Run Detekt
       run: ./gradlew detekt
