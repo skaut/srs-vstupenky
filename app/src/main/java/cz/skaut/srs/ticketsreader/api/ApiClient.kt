@@ -32,7 +32,7 @@ class ApiClient {
     suspend fun checkTicket(userId: Int): TicketCheckInfo {
         return getValidResponse(
             "${Preferences.apiUrl}tickets/check-ticket/?userId=$userId" +
-                "&subeventId=${Preferences.selectedSubeventId}"
+                    "&subeventId=${Preferences.selectedSubeventId}"
         )
     }
 

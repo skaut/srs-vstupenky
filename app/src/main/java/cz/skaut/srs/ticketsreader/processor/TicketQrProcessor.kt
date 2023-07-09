@@ -13,11 +13,11 @@ import cz.skaut.srs.ticketsreader.api.ApiErrorResponseException
 import cz.skaut.srs.ticketsreader.api.ApiSerializationException
 import cz.skaut.srs.ticketsreader.api.ApiUnknownErrorException
 import cz.skaut.srs.ticketsreader.api.dto.TicketCheckInfo
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.toJavaInstant
 import org.slf4j.LoggerFactory
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
     private val log = LoggerFactory.getLogger(this.javaClass)
