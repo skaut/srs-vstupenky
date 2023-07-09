@@ -4,16 +4,13 @@ import cz.skaut.srs.ticketsreader.Preferences
 import cz.skaut.srs.ticketsreader.api.dto.SeminarInfo
 import cz.skaut.srs.ticketsreader.api.dto.TicketCheckInfo
 import io.ktor.client.HttpClient
-import io.ktor.client.call.receive
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.statement.HttpResponse
-import io.ktor.client.statement.readText
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class ApiClient {
@@ -21,8 +18,6 @@ class ApiClient {
         checkConnectionPreferences()
 
         expectSuccess = false
-
-        install(JsonFeature)
 
         val token: String = Preferences.apiToken!!
         defaultRequest {
@@ -57,7 +52,7 @@ class ApiClient {
 
         if (response.status != HttpStatusCode.OK) {
             try {
-                val message = Json.decodeFromString<String>(response.readText())
+                val message = Json.decodeFromString<String>(response.bodyAsText())
                 throw ApiErrorResponseException(message)
             } catch (e: SerializationException) {
                 throw ApiUnknownErrorException(e)
@@ -65,7 +60,7 @@ class ApiClient {
         }
 
         try {
-            return response.receive()
+            return Json.decodeFromString(response.bodyAsText())
         } catch (e: SerializationException) {
             throw ApiSerializationException(e)
         }

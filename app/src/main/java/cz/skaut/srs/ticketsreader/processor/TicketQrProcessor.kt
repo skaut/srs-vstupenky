@@ -63,11 +63,11 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
         val tvSubevents: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_subevents_text)
         val tvChecks: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_checks_text)
 
-        if (!ticketInfo.has_subevent) {
+        if (!ticketInfo.hasSubevent) {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_invalid)
             tvStatus.setTextColor(Color.RED)
             tvMessage.text = context.getString(R.string.dialog_ticket_message_missing_subevent)
-        } else if (ticketInfo.subevent_checks.isNotEmpty()) {
+        } else if (ticketInfo.subeventChecks.isNotEmpty()) {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_used)
             tvStatus.setTextColor(Color.RED)
             tvMessage.text = context.getString(R.string.dialog_ticket_message_used)
@@ -79,12 +79,12 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
 
         tvMessage.visibility = if (tvMessage.text == null) TextView.GONE else TextView.VISIBLE
 
-        tvName.text = ticketInfo.attendee_name
+        tvName.text = ticketInfo.attendeeName
         tvRoles.text = ticketInfo.roles.joinToString(", ")
         tvSubevents.text = ticketInfo.subevents
             .map { it.name }
             .joinToString(", ")
-        tvChecks.text = ticketInfo.subevent_checks
+        tvChecks.text = ticketInfo.subeventChecks
             .map { dateTimeFormatter.format(it.toJavaInstant()) }
             .joinToString("\n")
 
