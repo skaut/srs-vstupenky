@@ -29,7 +29,7 @@
     <string name="dialog_error_message_api_config_error">Propojení se SRS není nastaveno.</string>
     <string name="dialog_error_message_api_connection_error">Připojení k SRS se nezdařilo, zkontrolujte připojení k internetu.</string>
     <string name="dialog_error_message_api_unknown_error">Při připojení k SRS došlo k neznámé chybě.</string>
-    <string name="dialog_error_message_api_serialization_error">Neplatná odpověď SRS.</string>
+    <string name="dialog_error_message_api_serialization_error">Neplatná odpověď SRS, zkontrolujte, že používáte aktuální verzi aplikace a SRS.</string>
 
     <string name="dialog_permission_title">Vyžadováno oprávnění</string>
     <string name="dialog_permission_message_camera_required">Tato aplikace vyžaduje přístup k fotoaparátu pro skenování QR kódů.</string>
