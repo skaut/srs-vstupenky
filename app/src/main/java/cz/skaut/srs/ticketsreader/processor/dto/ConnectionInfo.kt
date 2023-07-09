@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ConnectionInfo(
-    val apiUrl: String,
+    val srsUrl: String,
     val apiToken: String,
 )

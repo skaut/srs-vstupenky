@@ -12,6 +12,7 @@
     <string name="activity_main_btn_scan_tickets">Kontrola vstupenek</string>
 
     <string name="dialog_ticket_tv_name_label">Jméno: </string>
+    <string name="dialog_ticket_tv_age_label">Věk: </string>
     <string name="dialog_ticket_tv_roles_label">Role: </string>
     <string name="dialog_ticket_tv_subevents_label">Podakce: </string>
     <string name="dialog_ticket_tv_checks_label">Kontrolováno: </string>
