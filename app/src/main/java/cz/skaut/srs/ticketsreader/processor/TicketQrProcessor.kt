@@ -87,7 +87,7 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
         tvName.text = ticketInfo.attendeeName
         tvAge.text = ticketInfo.attendeeAge.toString()
 
-        if (ticketInfo.attendeePhoto.isNotEmpty()) {
+        if (ticketInfo.attendeePhoto != null) {
             ivPhoto.load("${Preferences.srsUrl}${ticketInfo.attendeePhoto}")
         }
 

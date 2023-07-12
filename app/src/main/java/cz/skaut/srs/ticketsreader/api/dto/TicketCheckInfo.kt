@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class TicketCheckInfo(
     @SerialName("attendee_name") val attendeeName: String,
     @SerialName("attendee_age") val attendeeAge: Int,
-    @SerialName("attendee_photo") val attendeePhoto: String,
+    @SerialName("attendee_photo") val attendeePhoto: String? = null,
     val roles: Array<String>,
     val subevents: Array<SubeventInfo>,
     @SerialName("has_subevent") val hasSubevent: Boolean,

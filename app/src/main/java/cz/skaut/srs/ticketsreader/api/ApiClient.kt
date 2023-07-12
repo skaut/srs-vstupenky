@@ -26,12 +26,12 @@ class ApiClient {
     }
 
     suspend fun getSeminarInfo(): SeminarInfo {
-        return getValidResponse("${Preferences.srsUrl}/api/tickets/seminar")
+        return getValidResponse("${Preferences.srsUrl}api/tickets/seminar")
     }
 
     suspend fun checkTicket(userId: Int): TicketCheckInfo {
         return getValidResponse(
-            "${Preferences.srsUrl}/api/tickets/check-ticket/?userId=$userId" +
+            "${Preferences.srsUrl}api/tickets/check-ticket/?userId=$userId" +
                     "&subeventId=${Preferences.selectedSubeventId}"
         )
     }
