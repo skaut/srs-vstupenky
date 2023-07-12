@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 
 const val CONNECTED = "connected"
-const val API_URL = "apiUrl"
+const val SRS_URL = "srsUrl"
 const val API_TOKEN = "apiToken"
 const val SEMINAR_NAME = "seminarName"
 const val SUBEVENTS = "subevents"
@@ -21,7 +21,7 @@ class Preferences private constructor() {
         private lateinit var prefs: SharedPreferences
 
         var connected: Boolean = false
-        var apiUrl: String? = null
+        var srsUrl: String? = null
         var apiToken: String? = null
         var seminarName: String? = null
         var subevents: Array<SubeventInfo> = emptyArray()
@@ -33,16 +33,16 @@ class Preferences private constructor() {
             load()
         }
 
-        fun setConnectionInfo(apiUrl: String, apiToken: String) {
+        fun setConnectionInfo(srsUrl: String, apiToken: String) {
             connected = true
-            this.apiUrl = apiUrl
+            this.srsUrl = srsUrl
             this.apiToken = apiToken
             save()
         }
 
         fun removeConnectionInfo() {
             connected = false
-            apiUrl = null
+            srsUrl = null
             apiToken = null
             removeSeminarInfo()
         }
@@ -73,7 +73,7 @@ class Preferences private constructor() {
 
         private fun load() {
             connected = prefs.getBoolean(CONNECTED, false)
-            apiUrl = prefs.getString(API_URL, null)
+            srsUrl = prefs.getString(SRS_URL, null)
             apiToken = prefs.getString(API_TOKEN, null)
             seminarName = prefs.getString(SEMINAR_NAME, null)
 
@@ -90,7 +90,7 @@ class Preferences private constructor() {
         private fun save() {
             val edit = prefs.edit()
             edit.putBoolean(CONNECTED, connected)
-            edit.putString(API_URL, apiUrl)
+            edit.putString(SRS_URL, srsUrl)
             edit.putString(API_TOKEN, apiToken)
             edit.putString(SEMINAR_NAME, seminarName)
             edit.putString(SUBEVENTS, Json.encodeToString(serializer(), subevents))

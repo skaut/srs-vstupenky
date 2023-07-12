@@ -2,9 +2,12 @@ package cz.skaut.srs.ticketsreader.processor
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import cz.skaut.srs.ticketsreader.Preferences
 import cz.skaut.srs.ticketsreader.R
 import cz.skaut.srs.ticketsreader.api.ApiClient
 import cz.skaut.srs.ticketsreader.api.ApiConfigException
@@ -59,6 +62,8 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
         val tvStatus: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_status)
         val tvMessage: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_message)
         val tvName: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_name_text)
+        val tvAge: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_age_text)
+        val ivPhoto: ImageView = dialogView.findViewById(R.id.dialog_ticket_iv_photo)
         val tvRoles: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_roles_text)
         val tvSubevents: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_subevents_text)
         val tvChecks: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_checks_text)
@@ -80,6 +85,12 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
         tvMessage.visibility = if (tvMessage.text == null) TextView.GONE else TextView.VISIBLE
 
         tvName.text = ticketInfo.attendeeName
+        tvAge.text = ticketInfo.attendeeAge.toString()
+
+        if (ticketInfo.attendeePhoto != null) {
+            ivPhoto.load("${Preferences.srsUrl}${ticketInfo.attendeePhoto}")
+        }
+
         tvRoles.text = ticketInfo.roles.joinToString(", ")
         tvSubevents.text = ticketInfo.subevents
             .map { it.name }

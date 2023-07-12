@@ -23,9 +23,9 @@ class ConnectionQrProcessor(context: Context) : QrProcessor(context) {
     override fun process(value: String) {
         try {
             val connectionInfo = Json.decodeFromString(ConnectionInfo.serializer(), value)
-            val apiUrl = connectionInfo.apiUrl
+            val srsUrl = connectionInfo.srsUrl
             val apiToken = connectionInfo.apiToken
-            Preferences.setConnectionInfo(apiUrl, apiToken)
+            Preferences.setConnectionInfo(srsUrl, apiToken)
 
             val apiClient = ApiClient()
             val seminarInfo: SeminarInfo
