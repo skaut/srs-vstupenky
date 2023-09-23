@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "cz.skaut.srs.ticketsreader"
-        minSdk 26
+        minSdk 22
         targetSdk 34
         versionCode 4
         versionName "1.1"

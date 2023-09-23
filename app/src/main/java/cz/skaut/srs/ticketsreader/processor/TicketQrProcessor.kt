@@ -17,17 +17,16 @@ import cz.skaut.srs.ticketsreader.api.ApiSerializationException
 import cz.skaut.srs.ticketsreader.api.ApiUnknownErrorException
 import cz.skaut.srs.ticketsreader.api.dto.TicketCheckInfo
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.toJavaInstant
 import org.slf4j.LoggerFactory
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 private const val COLOR_ORANGE = 0xffffa500;
 
 class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
     private val log = LoggerFactory.getLogger(this.javaClass)
-    private val dateTimeFormatter: DateTimeFormatter =
-        DateTimeFormatter.ofPattern("d. M. yyyy H:mm:ss").withZone(ZoneId.systemDefault())
+    private val dateTimeFormatter: SimpleDateFormat =
+        SimpleDateFormat("d. M. yyyy H:mm:ss", Locale.getDefault())
 
     override fun process(value: String) {
         try {
@@ -98,7 +97,7 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
             .map { it.name }
             .joinToString(", ")
         tvChecks.text = ticketInfo.subeventChecks
-            .map { dateTimeFormatter.format(it.toJavaInstant()) }
+            .map { dateTimeFormatter.format(it.toEpochMilliseconds()) }
             .joinToString("\n")
 
         MaterialAlertDialogBuilder(context)
