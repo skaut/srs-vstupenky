@@ -17,14 +17,14 @@ class QrBoxView(context: Context) : View(context) {
     private val paint = Paint()
     private var rectangle = Rect()
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         paint.style = Paint.Style.STROKE
         paint.color = Color.RED
         paint.strokeWidth = STROKE_WIDTH
 
-        canvas?.drawRoundRect(rectangle.toRectF(), CORNER_RADIUS, CORNER_RADIUS, paint)
+        canvas.drawRoundRect(rectangle.toRectF(), CORNER_RADIUS, CORNER_RADIUS, paint)
     }
 
     fun setRect(rect: Rect) {
