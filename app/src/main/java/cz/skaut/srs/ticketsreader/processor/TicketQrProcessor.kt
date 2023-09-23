@@ -74,7 +74,7 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
             tvMessage.text = context.getString(R.string.dialog_ticket_message_missing_subevent)
         } else if (ticketInfo.subeventChecks.isNotEmpty()) {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_used)
-            tvStatus.setTextColor(Color.RED)
+            tvStatus.setTextColor(Color.rgb(255, 165, 0))
             tvMessage.text = context.getString(R.string.dialog_ticket_message_used)
         } else {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_valid)
