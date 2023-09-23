@@ -22,6 +22,8 @@ import org.slf4j.LoggerFactory
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+private const val COLOR_ORANGE = 0xffffa500;
+
 class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
     private val log = LoggerFactory.getLogger(this.javaClass)
     private val dateTimeFormatter: DateTimeFormatter =
@@ -74,7 +76,7 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
             tvMessage.text = context.getString(R.string.dialog_ticket_message_missing_subevent)
         } else if (ticketInfo.subeventChecks.isNotEmpty()) {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_used)
-            tvStatus.setTextColor(Color.RED)
+            tvStatus.setTextColor(COLOR_ORANGE.toInt())
             tvMessage.text = context.getString(R.string.dialog_ticket_message_used)
         } else {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_valid)
