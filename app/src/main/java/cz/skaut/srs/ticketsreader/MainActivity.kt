@@ -45,7 +45,36 @@ class MainActivity : AppCompatActivity() {
 
         Preferences.init(this)
         updateUI()
+        setListeners()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        updateUI()
+    }
+
+    private fun updateUI() {
+        if (Preferences.connected) {
+            btnConnectSrs.visibility = Button.GONE
+            btnDisconnectSrs.visibility = Button.VISIBLE
+            btnRefresh.visibility = Button.VISIBLE
+            btnScanTickets.visibility = Button.VISIBLE
+            tvSeminarName.text = Preferences.seminarName
+        } else {
+            btnConnectSrs.visibility = Button.VISIBLE
+            btnDisconnectSrs.visibility = Button.GONE
+            btnRefresh.visibility = Button.GONE
+            btnScanTickets.visibility = Button.GONE
+            tvSeminarName.text = getString(R.string.activity_main_tv_seminar_name_text_default)
+        }
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, Preferences.subevents)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        spnSubevent.adapter = adapter
+        spnSubevent.setSelection(Preferences.selectedSubeventPosition)
+    }
+
+    private fun setListeners() {
         btnConnectSrs.setOnClickListener {
             val intent = Intent(this, ScannerActivity::class.java)
             intent.putExtra("connection_mode", true)
@@ -116,37 +145,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateUI()
-    }
-
-    fun updateUI() {
-        if (Preferences.connected) {
-            btnConnectSrs.visibility = Button.GONE
-            btnDisconnectSrs.visibility = Button.VISIBLE
-            btnRefresh.visibility = Button.VISIBLE
-            btnScanTickets.visibility = Button.VISIBLE
-            tvSeminarName.text = Preferences.seminarName
-        } else {
-            btnConnectSrs.visibility = Button.VISIBLE
-            btnDisconnectSrs.visibility = Button.GONE
-            btnRefresh.visibility = Button.GONE
-            btnScanTickets.visibility = Button.GONE
-            tvSeminarName.text = getString(R.string.activity_main_tv_seminar_name_text_default)
-        }
-
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, Preferences.subevents)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        spnSubevent.adapter = adapter
-        spnSubevent.setSelection(Preferences.selectedSubeventPosition)
-    }
-
-    fun showToast(message: Int) {
+    private fun showToast(message: Int) {
         showToast(getString(message))
     }
 
-    fun showToast(message: String?) {
+    private fun showToast(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }
