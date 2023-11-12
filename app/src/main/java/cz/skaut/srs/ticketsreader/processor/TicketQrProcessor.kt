@@ -23,7 +23,8 @@ import org.slf4j.LoggerFactory
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-private const val COLOR_ORANGE = 0xffffa500;
+private const val COLOR_ORANGE = 0xffffa500
+private const val ADULT_MIN_AGE = 18
 
 class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
     private val log = LoggerFactory.getLogger(this.javaClass)
@@ -90,7 +91,7 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
             if (!ticketInfo.attendeeMember) {
                 messages.add(context.getString(R.string.dialog_ticket_message_not_member))
             }
-            if (ticketInfo.attendeeAge < 18) {
+            if (ticketInfo.attendeeAge < ADULT_MIN_AGE) {
                 messages.add(context.getString(R.string.dialog_ticket_message_not_adult))
             }
         }
