@@ -23,6 +23,8 @@
     <string name="dialog_ticket_status_invalid">Neplatná</string>
     <string name="dialog_ticket_message_used">Vstupenka již byla dříve načtena.</string>
     <string name="dialog_ticket_message_missing_subevent">Účastník nemá kontrolovanou podakci.</string>
+    <string name="dialog_ticket_message_not_member">Účastník nemá propojený účet.</string>
+    <string name="dialog_ticket_message_not_adult">Účastník je mladší 18 let.</string>
 
     <string name="dialog_error_title">Chyba</string>
     <string name="dialog_error_message_invalid_ticket_qr">Neplatný QR kód vstupenky.</string>
