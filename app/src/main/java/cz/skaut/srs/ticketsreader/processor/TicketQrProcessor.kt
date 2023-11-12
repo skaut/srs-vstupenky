@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.FragmentActivity
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -22,7 +23,8 @@ import org.slf4j.LoggerFactory
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-private const val COLOR_ORANGE = 0xffffa500;
+private const val COLOR_ORANGE = 0xffffa500
+private const val ADULT_MIN_AGE = 18
 
 class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
     private val log = LoggerFactory.getLogger(this.javaClass)
@@ -70,27 +72,40 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
         val tvSubevents: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_subevents_text)
         val tvChecks: TextView = dialogView.findViewById(R.id.dialog_ticket_tv_checks_text)
 
+        val messages: MutableList<String> = mutableListOf()
+
         if (!ticketInfo.hasSubevent) {
             tvStatus.text = context.getString(R.string.dialog_ticket_status_invalid)
             tvStatus.setTextColor(Color.RED)
-            tvMessage.text = context.getString(R.string.dialog_ticket_message_missing_subevent)
-        } else if (ticketInfo.subeventChecks.isNotEmpty()) {
-            tvStatus.text = context.getString(R.string.dialog_ticket_status_used)
-            tvStatus.setTextColor(COLOR_ORANGE.toInt())
-            tvMessage.text = context.getString(R.string.dialog_ticket_message_used)
+            messages.add(context.getString(R.string.dialog_ticket_message_missing_subevent))
         } else {
-            tvStatus.text = context.getString(R.string.dialog_ticket_status_valid)
-            tvStatus.setTextColor(Color.GREEN)
-            tvMessage.text = null
+            if (ticketInfo.subeventChecks.isNotEmpty()) {
+                tvStatus.text = context.getString(R.string.dialog_ticket_status_used)
+                tvStatus.setTextColor(COLOR_ORANGE.toInt())
+                messages.add(context.getString(R.string.dialog_ticket_message_used))
+            } else {
+                tvStatus.text = context.getString(R.string.dialog_ticket_status_valid)
+                tvStatus.setTextColor(Color.GREEN)
+            }
+
+            if (!ticketInfo.attendeeMember) {
+                messages.add(context.getString(R.string.dialog_ticket_message_not_member))
+            }
+            if (ticketInfo.attendeeAge < ADULT_MIN_AGE) {
+                messages.add(context.getString(R.string.dialog_ticket_message_not_adult))
+            }
         }
 
-        tvMessage.visibility = if (tvMessage.text == null) TextView.GONE else TextView.VISIBLE
+        tvMessage.text = messages.joinToString("\n")
+        tvMessage.visibility = if (messages.isEmpty()) TextView.GONE else TextView.VISIBLE
 
         tvName.text = ticketInfo.attendeeName
         tvAge.text = ticketInfo.attendeeAge.toString()
 
         if (ticketInfo.attendeePhoto != null) {
             ivPhoto.load("${Preferences.srsUrl}${ticketInfo.attendeePhoto}")
+        } else {
+            ivPhoto.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.no_photo))
         }
 
         tvRoles.text = ticketInfo.roles.joinToString(", ")
