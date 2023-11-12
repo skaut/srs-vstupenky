@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.FragmentActivity
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -102,6 +103,8 @@ class TicketQrProcessor(context: FragmentActivity) : QrProcessor(context) {
 
         if (ticketInfo.attendeePhoto != null) {
             ivPhoto.load("${Preferences.srsUrl}${ticketInfo.attendeePhoto}")
+        } else {
+            ivPhoto.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.no_photo))
         }
 
         tvRoles.text = ticketInfo.roles.joinToString(", ")
