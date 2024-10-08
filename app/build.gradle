@@ -72,5 +72,5 @@ dependencies {
 }
 
 detekt {
-    config = files("detekt.yml")
+    config.setFrom("detekt.yml")
 }
