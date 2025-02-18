@@ -48,7 +48,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation "androidx.preference:preference-ktx:1.2.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.6.2'
 
     // Barcode scanning API
     implementation 'com.google.mlkit:barcode-scanning:17.3.0'
